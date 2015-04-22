@@ -11,6 +11,7 @@ int flow[max][max] ;   // flow through
 int status[max] ;    // status of every node durinf breadth first search
 int pred[max] ;   // predecessor for every node in the augmented pat foung in BFS 
 int q[max] ;   //  used in implementing queues in BFS 
+int visited[max] ; //   to save the visited edges in DFS 
 
 int push , pop ;    
 int nodes , edges ; // number of nodes and edges 
@@ -37,6 +38,21 @@ int dequeue(){
 	
 }	
 	
+
+void dfs(int s ){                       //  function for DFS for finding min cut 
+        //printf("gg\n") ; 
+	visited[s] = 1 ; 
+	int i ; 
+	for(i= 0 ; i< nodes ; i++){
+		if(capacity[s][i]-flow[s][i]!=0 && !visited[i] ){
+                //printf("%d\n",i) ; 
+		dfs(i) ; 
+}
+	}
+	
+	
+}
+
 
 int search(int source ,int sink ){
 	int i,j  ; 
@@ -101,7 +117,22 @@ ford_f(char * s){
 		maxflow += bottleneck ;    // updating the maximum flow throug the graph
 	}
 	
-	printf("%d\n",maxflow) ; 
+	for(i=0 ; i< nodes ; i++){
+		visited[i] = 0 ; 
+	}
+	printf("Maximum flow through the network is : %d\n",maxflow) ;
+	dfs(0) ;                // running depth first search for find the min cut . ..
+	printf("Following are the min cut edges cut by the arc\n");
+	for(i=0 ; i<nodes;i++){
+		for(j=0 ; j<nodes ;j++){
+                        //printf("%d %d %d\n",i,j,flow[i][j]) ; 
+			if(visited[i]&& !visited[j] && capacity[i][j]!=0 )
+			printf("%d---%d\n",i,j) ; 
+
+		}
+	}
+	
+	 
 	}
 
 
