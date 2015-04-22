@@ -1,6 +1,7 @@
 /*
 Author : Shashanth R V , Anvesh Reddy Patlolla  , Akarshan Sajja 
 DAA Assignment 2 - Question 1 
+Ford Fulkersons Algorithm with st min cut 
 */
 
 #include <stdio.h>
