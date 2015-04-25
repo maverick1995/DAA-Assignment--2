@@ -3,7 +3,8 @@
 #include <limits.h>
 #define oo 10000
 
-
+// creating a structure whic hhold the key and value and the pointer to the 
+//nodes above,  below , previous and next position 
 struct node {
 	int key ; 
 	int value ; 
@@ -14,7 +15,7 @@ struct node {
 	} ; 
 
 
-struct node * topleft  ; 
+struct node * topleft  ; // nodes at the topleft corner and nodes at the topright 
 struct node * topright ; 
 
 
@@ -26,16 +27,19 @@ struct node * topright ;
     return level;
 }
 
+
+// function to increase the level of the skiplist by one for the nodes at the 
+// topleft and topright 
 void inc_level(){
 //printf("in\n") ; 
 	struct node * p  = (struct node *)malloc(sizeof(struct node )) ; 
 	struct node * q = (struct node * )malloc(sizeof(struct node )) ; 
-	p->key = -oo ; 
+	p->key = -oo ; //  setting the value of the left most node to negative infinity
 	p->value = -oo ; 
-	q->key = oo ;  
+	q->key = oo ;  //setting the value of the right most node to negative infinity
 	p->value  = oo ; 
-	topleft->above = p ;  
-	p->below = topleft ; 
+	topleft->above = p ;  // increasing the level of the node 
+	p->below = topleft ; // linking the pointers in the appropriate way 
 	topright->above = q ; 
 	q->below - topright ; 
 	topright = q ; 
@@ -46,10 +50,10 @@ void inc_level(){
 }
 
 struct node * search(int k ){
-	struct node * p = topleft  ;
-	while(p->below!=NULL){
+	struct node * p = topleft  ; // search begins at the topleft 
+	while(p->below!=NULL){    // going down the level one by one through this loop 
 		p = p->below   ; 
-		while(k>=p->next->key )
+		while(k>=p->next->key ) // searches for the maximum element grater than k in that level 
 		p = p->next ; 
 	}
 	
@@ -58,19 +62,19 @@ struct node * search(int k ){
 	//else
 	//printf("not found \n ") ; 
 	
-	return p ;
+	return p ; // returning the pointer to that level
 	
 }
 
 
-void print(){
+void print(){ // prints the value key and livel of the list 
 	struct node * new = topleft ; 
 	while(new->below!=NULL){
 		new = new->below ; 
 	}
 	new = new->next ; 
 	int count ; 
-printf("\tKey\tValue\tLevel\n") ; 
+    printf("\tKey\tValue\tLevel\n") ; 
 	while(new->next!=NULL){
 		count = 0 ; 
 		int key = new->key ;
@@ -88,29 +92,29 @@ printf("\tKey\tValue\tLevel\n") ;
 }
 
 void insert(int k ){
-	struct node * p = search(k) ; 
+	struct node * p = search(k) ; // returns the pointer of the node just less than k in lowest level 
 	struct node * q = (struct node *)malloc(sizeof(struct node )) ; 
 	q->key = k ; 
 	q->value  =  k ; 
-	q->next = p->next ; 
+	q->next = p->next ; // linking the pointers between p and the new node ; 
 	p->next->prev = q ; 
 	p->next = q ; 
 	q->prev =  p  ;
-	int lev = rand()%6 ; 
+	int lev = rand()%6 ;   // creating random level for the list 
 	int i ; 
-        printf("List added with level %d\n",lev) ; 
-	for(i = 0 ; i < lev ; i++){
-		while(p->above==NULL){
+    printf("List added with level %d\n",lev) ; 
+	for(i = 0 ; i < lev ; i++){  // code block to link all the list before the one inserted with the one inserted 
+		while(p->above==NULL){ 
  
 			 
-//printf("val %d\n",p->key) ;
+            //printf("val %d\n",p->key) ;
 			if(p==topleft)
 			inc_level() ; 
-else
-p = p->prev ;
+            else
+            p = p->prev ;
 			//printf("gg1\n") ;
 		}
-//printf("gg\n") ;
+        //printf("gg\n") ;
 		p = p->above ; 
 		struct node * new  = (struct node *)malloc(sizeof(struct node ) ) ;
 		new->key = k ; 
@@ -129,13 +133,14 @@ p = p->prev ;
 
 
 void delete(int x ){
-	struct node * new = search(x) ; 
+	struct node * new = search(x) ; // searching for the node pointer which kas key value k  
 	if(new->key!=x){
 		printf("%d doesn'nt exist in skip list\n",x) ; 
 		return  ; 
 	}
 	
-	while(new->above != NULL){
+	// linking all the nodes in the list with the nodes previous to the one with the node next to this 
+	while(new->above != NULL){ 
 		new->prev->next = new->next ; 
 		new->next->prev  = new->prev ; 
 		struct node * tmp = new ; 
@@ -172,13 +177,13 @@ int main(void) {
 			 //int b ; 
 			 scanf("%d",&b) ; 
 			 struct node * ret  = search(b) ;
-if(ret->key==b)
-printf("found\n") ; 
-else
-printf("Not found\n") ; 
+             if(ret->key==b)
+             printf("found\n") ; 
+             else
+             printf("Not found\n") ; 
 			 case 3 : 
 			 print() ; 
-break ; 
+             break ; 
 			 case 4 : 
 			 scanf("%d",&b) ;
 			 delete(b) ; 
