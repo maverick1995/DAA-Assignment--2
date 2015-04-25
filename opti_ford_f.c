@@ -1,7 +1,6 @@
 /*
-Author : Shashanth R V , Anvesh Reddy Patlolla  , Akarshan Sajja 
+Author : Shashanth R V , Anvesh Reddy Patlolla  , Akarshan Sajja , Vasudev Sridhar
 DAA Assignment 2 - Question 1 
-Optimized Ford Fulkersons Algorithm with st min cut 
 */
 
 #include <stdio.h>
@@ -62,7 +61,7 @@ void dfs(int s ){                       //  function for DFS for finding min cut
 }
 
 
-int search(int source ,int sink ){
+int search(int source ,int sink, int delta ){
 	int i,j  ; 
 	for(i=0; i<nodes; i++){
 		status[i] = 0 ;  
@@ -73,9 +72,9 @@ int search(int source ,int sink ){
 	while(push!=pop){
 		j = dequeue() ; 
 		// searching for all the adjacent nodes in the graph which has been dequeued whose residual is 
-		// greater than zero and hasnt been selected 
-		for(i=0 ; i<nodes ; i++){
-			if(status[i]==0 && capacity[j][i] - flow[j][i]>0 ){
+		// greater than delta and hasnt been selected 
+		for(i=0 ; i<nodes ; i++){ 
+			if(status[i]==0 && capacity[j][i] - flow[j][i]>delta ){
 				enqueue(i) ; 
 				pred[i] = j ; 
 			}
@@ -104,7 +103,7 @@ ford_f(char * s){
 			flow[i][j] = 0 ; 
 		}
 	}
-	int e1,e2,cap, maximum= 0 , delta=1 ; 
+	int e1,e2,cap, maximum= 0  , delta =1 ;  
 	for(i=0 ; i<edges ; i++){
 		fscanf(fp,"%d %d %d",&e1,&e2,&cap) ; 
 		capacity[e1][e2] = cap ; // update the capacities of the edges there in the graph 
@@ -118,9 +117,9 @@ ford_f(char * s){
 	}
 	
 	while(delta>=1){
-	while(search(0,nodes-1)){                               //  run the for fulkersons algo till there is st path .
+	while(search(0,nodes-1, delta)){                               //  run the for fulkersons algo till there is st path .
 		int bottleneck = 100000 ; 
-		for(i= nodes -1 ; pred[i]>=0 ; i = pred[i]){          //finding the bottleneck 
+		for(i= nodes -1 ; pred[i]>=0 ; i = pred[i]){           //finding the bottleneck 
 			bottleneck = min(bottleneck , capacity[pred[i]][i] - flow[pred[i]][i]  ) ; 
 		}
 		
