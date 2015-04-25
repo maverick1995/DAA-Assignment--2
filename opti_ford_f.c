@@ -1,30 +1,4 @@
-/*
-Author : Shashanth R V , Anvesh Reddy Patlolla  , Akarshan Sajja , Vasudev Sridhar
-DAA Assignment 2 - Question 1 
-*/
-
-#include <stdio.h>
-#define max 100
-
-int capacity[max][max] ; // capacity of the edges
-int flow[max][max] ;   // flow through 
-int status[max] ;    // status of every node durinf breadth first search
-int pred[max] ;   // predecessor for every node in the augmented pat foung in BFS 
-int q[max] ;   //  used in implementing queues in BFS 
-int visited[max] ; //   to save the visited edges in DFS 
-
-int push , pop ;    
-int nodes , edges ; // number of nodes and edges 
-int maxflow = 0 ;  // flow through the edges 
-
-int min(int a , int b){
-	if(a<b)
-	return a ; 
-	else
-	return b ; 
-	}
-	
-int maxi(int a , int b ){
+ 
 	if (a>b)
 	return a ; 
 	else 
@@ -153,7 +127,7 @@ ford_f(char * s){
 
 
 
-int main(int argv , char *args[]) {
+int main(int argv , char *args[]) {  
 	// your code goes here
 	if(argv!=2){                                //  alerting if wrong input given 
 		printf("Wrong Input format\n") ; 
